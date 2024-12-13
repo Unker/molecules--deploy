@@ -7,6 +7,7 @@ Molecules
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
   - [Server Setup](#server-setup)
+  - [Configuring Git](#configuring-git)
   - [Project Setup](#project-setup)
     - [Database Setup](#database-setup)
     - [Cloning the Project](#cloning-the-project)
@@ -33,6 +34,9 @@ Molecules
 
 <img src="./assets/img/Redux_Logo.png" alt="Redux Toolkit" title="Redux Toolkit" height="25" style="margin: 10px; background: #FFFFFF; padding: 10px;">
 <img src="./assets/img/react-router-color.svg" alt="React Router" title="React Router" height="25" style="margin: 10px; background: #FFFFFF; padding: 10px;">
+
+
+
 
 # Getting Started <a name="getting-started"></a>
 
@@ -73,7 +77,61 @@ Molecules
     sudo chown <user>:<user> -R /var/www/molecules/
     ```
 
+
+
+### Configuring Git <a name="configuring-git"></a>
+---
+
+1. Install Git
+    ```bash
+    sudo apt update
+    sudo apt install git
+    ```
+
+1. Generate an SSH Key
+
+    Create an SSH key for authentication with GitHub:
+    ```bash
+    ssh-keygen -t ed25519 -C "your_email@example.com"
+    ```
+    Follow the instructions and save the key in the default path (`~/.ssh/id_ed25519`).
+
+1. Add the SSH Key to GitHub
+    - Copy the contents of the public key:
+        ```bash
+        cat ~/.ssh/id_ed25519.pub
+        ```
+
+    - Go to your GitHub account settings:
+        - Open **Settings** → **SSH and GPG keys**.
+        - Click **New SSH Key**.
+        - Paste the key and save it.
+
+1. Test the Connection to GitH
+
+    Ensure the server can connect to GitHub:
+    ```bash
+    ssh -T git@github.com
+    ```
+    You should see a message like this:
+    ```
+    Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+    ```
+
+1. Configure Git to Use SSH
+
+    To avoid issues with HTTPS in submodules, run the following command:
+    ```bash
+    git config --global url."git@github.com:".insteadOf "https://github.com/"
+    ```
+
+    This command automatically replaces `https://github.com/` with `git@github.com:` when interacting with GitHub, including when working with submodules.
+
+
+
+
 ### Project Setup <a name="project-setup"></a>
+---
 
 #### <ins>Database Setup</ins> <a name="database-setup"></a>
 
@@ -93,22 +151,32 @@ Set up the database according to the [instructions](https://github.com/Unker/clo
     cd molecules--deploy
     ```
 
-1. Download the submodules:
+1. Work with Submodules
+
+    After applying the [Configuring Git](#configuring-git), initialize and update the submodules:
     ```bash
     git submodule update --init --recursive
     ```
 
+1. To verify that everything is working, run:
+    ```bash
+    git submodule status
+    ```
+    Ensure that all submodules are correctly initialized.
 
-1. Download `jmol lib` from https://sourceforge.net/projects/jmol/  
-    ```
-    unpack to /var/www/molecules/molecules--deploy/molecules--web/
-    Then rename it to `jmol`
+
+3. Unpack `jmol` lib:  
+    ```bash
+    unzip ./molecules--web/jmol.zip -d ./molecules--web/
     ```
 
-1. Copy molecules descriptors
+5. Verify the Setup:  
+    Ensure the `jmol` directory is correctly located:
+    ```bash
+    ls /var/www/molecules/molecules--deploy/molecules--web/
     ```
-    to /var/www/molecules/molecules--deploy/molecules--server/molecules/static/molecules/
-    ```
+    You should see a folder named `jmol`.
+
 
 #### <ins>Setting Backend Environment Variables</ins> <a name="env-backend"></a>
 
