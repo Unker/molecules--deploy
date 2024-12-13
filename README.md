@@ -89,7 +89,7 @@ Set up the database according to the [instructions](https://github.com/Unker/clo
 1. Navigate to the project directory and clone it from the repository:
     ```bash
     cd /var/www/molecules
-    git clone https://github.com/Unker/molecules--deploy.git .
+    git clone https://github.com/Unker/molecules--deploy.git
     cd molecules--deploy
     ```
 

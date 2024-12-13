@@ -1,6 +1,6 @@
 [submodule "molecules--web"]
 	path = molecules--web
-	url = https://github.com/Unker/molecules--web.git
+	url = git@github.com:Unker/molecules--web.git
 [submodule "molecules--server"]
 	path = molecules--server
-	url = https://github.com/Unker/molecules--server.git
+	url = git@github.com:Unker/molecules--server.git
