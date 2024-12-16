@@ -135,7 +135,7 @@ Molecules
 
 #### <ins>Database Setup</ins> <a name="database-setup"></a>
 
-Set up the database according to the [instructions](https://github.com/Unker/cloud_storage_server/tree/main?tab=readme-ov-file#database-setup) and [provide access](https://github.com/Unker/cloud_storage_server/tree/main?tab=readme-ov-file#database-access).
+Create `db_nftmolecules` database according to the [instructions](https://github.com/Unker/cloud_storage_server/tree/main?tab=readme-ov-file#database-setup)  and [provide access](https://github.com/Unker/cloud_storage_server/tree/main?tab=readme-ov-file#database-access).
 
 #### <ins>Cloning the Project</ins> <a name="cloning-the-project"></a>
 
@@ -165,18 +165,24 @@ Set up the database according to the [instructions](https://github.com/Unker/clo
     Ensure that all submodules are correctly initialized.
 
 
-3. Unpack `jmol` lib:  
+1. Unpack `jmol` lib:  
     ```bash
     unzip ./molecules--web/jmol.zip -d ./molecules--web/
     ```
 
-5. Verify the Setup:  
+1. Verify the Setup:  
     Ensure the `jmol` directory is correctly located:
     ```bash
     ls /var/www/molecules/molecules--deploy/molecules--web/
     ```
     You should see a folder named `jmol`.
 
+1. Collect static files:  
+    Copie files from your desktop to the server
+    ```bash
+    rsync -avz --progress --ignore-errors --bwlimit=10000 --delete-before -e "ssh -T -c aes128-gcm@openssh.com -o Compression=no -x" data_media/ <user_name>@109.71.245.96:/var/www/molecules/data_media/
+    ```
+    replace <user_name> and `109.71.245.96` with your server's address.
 
 #### <ins>Setting Backend Environment Variables</ins> <a name="env-backend"></a>
 
@@ -214,14 +220,22 @@ Set up the database according to the [instructions](https://github.com/Unker/clo
 
 1. Populate the `.env` file according to `.env.example` and set:
     ```
-    URL_SERVER='http://109.71.245.96/api'
+    URL_SERVER='http://109.71.245.96:8001'
     ```
 ***Replace `109.71.245.96` with your server's address.***
 
 ## Running the Project with Docker Compose <a name="run-with-docker"></a>
 ```bash
 cd /var/www/molecules/molecules--deploy
-docker compose up -d --build
+sudo docker compose up -d --build
+```
+Check status
+```bash
+sudo docker ps
+```
+Copy files to the docker container
+```bash
+sudo docker cp ../data_media/. molecules--deploy-molecules_backend-1:/app/molecules/static/molecules/
 ```
 
 ## Migrations and etc
