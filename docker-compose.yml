@@ -32,6 +32,7 @@ services:
       - "8001:8000"
     volumes:
       - ./molecules--server:/app
+      - ./data_media:/app/molecules/media
     networks:
       - app_network
 

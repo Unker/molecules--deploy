@@ -177,10 +177,10 @@ Create `db_nftmolecules` database according to the [instructions](https://github
     ```
     You should see a folder named `jmol`.
 
-1. Collect static files:  
-    Copie files from your desktop to the server
+1. Collect media files:  
+    Copy media files from your desktop to the server
     ```bash
-    rsync -avz --progress --ignore-errors --bwlimit=10000 --delete-before -e "ssh -T -c aes128-gcm@openssh.com -o Compression=no -x" data_media/ <user_name>@109.71.245.96:/var/www/molecules/data_media/
+    rsync -avz --progress --ignore-errors --bwlimit=10000 --delete-before -e "ssh -T -c aes128-gcm@openssh.com -o Compression=no -x" data_media/ <user_name>@109.71.245.96:/var/www/molecules/molecules--deploy/data_media/
     ```
     replace <user_name> and `109.71.245.96` with your server's address.
 
@@ -198,7 +198,7 @@ Create `db_nftmolecules` database according to the [instructions](https://github
     CORS_ALLOWED_DOMEN='109.71.245.96,localhost,127.0.0.1,molecules_backend,molecules_backend:8000,molecules_frontend,molecules_frontend:3000'
     HTTP_WEB3_PROVIDER='http://192.168.0.112:8545'
     DB_NAME=db_nftmolecules
-    DB_HOST=172.18.0.1
+    DB_HOST=172.17.0.1
     DB_PORT=5432
     DB_USER=<superuser_name>
     DB_PASSWORD=<superuser_password>
@@ -233,26 +233,23 @@ Check status
 ```bash
 sudo docker ps
 ```
-Copy files to the docker container
-```bash
-sudo docker cp ../data_media/. molecules--deploy-molecules_backend-1:/app/molecules/static/molecules/
-```
 
 ## Migrations and etc
 
 1. Migrations, create super user and collect static files
     ```bash
-    sudo docker compose exec -it molecules--deploy-molecules_backend bash
+    sudo docker exec -it molecules--deploy-molecules_backend-1 bash
     python3 manage.py migrate
     python3 manage.py createsuperuser
     python3 manage.py collectstatic
+    python3 create_object_from_json.py
     ```
 
 ## Useful scripts <a name="useful-scripts"></a>
 ###
 1. Generate a SECRET_KEY for Django:
    ```bash
-   sudo docker compose exec -it molecules--deploy-molecules_backend bash
+   sudo docker exec -it molecules--deploy-molecules_backend-1 bash
    python3 manage.py shell
    from django.core.management import utils
    utils.get_random_secret_key()
