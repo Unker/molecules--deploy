@@ -168,6 +168,7 @@ Create `db_nftmolecules` database according to the [instructions](https://github
 1. Unpack `jmol` lib:  
     ```bash
     unzip ./molecules--web/jmol.zip -d ./molecules--web/
+    unzip ./molecules--web/jmol/jsmol.zip -d ./molecules--web/jmol/
     ```
 
 1. Verify the Setup:  
