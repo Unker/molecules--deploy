@@ -19,7 +19,7 @@ services:
       context: ./molecules--web
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
+      - "3000:3000"
     volumes:
       - ./molecules--web/src:/usr/src/app/src
     networks:
@@ -31,7 +31,7 @@ services:
       dockerfile: Dockerfile
     command: gunicorn api_NFTMolecules.wsgi:application --bind 0.0.0.0:8000
     ports:
-      - "8001:8000"
+      - "8000:8000"
     volumes:
       - ./molecules--server:/app
       - ./data_media:/app/molecules/media
